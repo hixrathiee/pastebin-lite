@@ -118,20 +118,4 @@ export const healthCheck = async (req, res) => {
     }
 }
 
-export const check = async (req, res) => {
-    const paste = await Paste.findById(req.params.id);
-    if (!paste || isExpired(paste, req)) {
-        return res.status(404).send("Not Found");
-    }
 
-    paste.views += 1;
-    await paste.save();
-
-    res.send(`
-    <html>
-      <body>
-        <pre>${escapeHtml(paste.content)}</pre>
-      </body>
-    </html>
-  `);
-}
